@@ -61,6 +61,12 @@ def getsubnetlist(vpcno):
     subnetNo = list(d['subnetNo'] for d in datas)
     subnetName = list(d['subnetName'] for d in datas)
     subnet = list(d['subnetName'] for d in datas)
+    for a in subnetNo:
+        print("subnet number is {}".format(a))
+    for a in subnetName:
+        print("subnet name is {}".format(a))
+    for a in subnet:
+        print("subnet CIDR is {}".format(a))
 
 
 CIDR = input("Please Insert VPC-CIDR : ")    #vpc생성 시작 및 CIDR값 입력
