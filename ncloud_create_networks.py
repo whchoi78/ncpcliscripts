@@ -14,7 +14,7 @@ def createvpc(CIDR): #vpc 생성
 
     print("VPC Number is", vpcresult)
     print("-------------------------------")
-    time.sleep(25)
+    time.sleep(20)
     return getNaclNumber(vpcresult)       #getnaclnumber 함수 조회 시작
 
 def getNaclNumber(a): #nacl 번호조회
@@ -30,29 +30,33 @@ def getNaclNumber(a): #nacl 번호조회
     print("-------------------------------")
     return createsubnet(vpcresult, NACLresult)   #NACL 번호를 반환   
 
-def createsubnet(b, c): #서브넷 생성    
+def createsubnet(b, c): #서브넷 생성
+    global SUBNET    
     for x in range(5, 21, 5):           #  서브넷 생성 코드, 유동적이지 못함(수정 필요)
         if x%2 == 1 and x <= 10:
-            i = 1
-            t = "public"
-            os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{i} --vpcNo {b} --subnetName {t}subnet{i} \
-                --subnet 10.0.{x}.0/24 -- networkAclNo {c} --subnetTypeCode {t}".format(i, b, c, x, t)).read()
+            i = "1"
+            T = "PUBLIC"
+            SUBNET = os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{0} --vpcNo {1} --subnetName {5}subnet{0} \
+                --subnet 10.0.{3}.0/24 --networkAclNo {2} --subnetTypeCode {4}".format(i, b, c, x, T, t)).read()
         elif x%2 == 0 and x <= 10:
-            i = 2      
-            t = "public"  
-            os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{i} --vpcNo {b} --subnetName {t}subnet{i} \
-                --subnet 10.0.{x}.0/24 -- networkAclNo {c} --subnetTypeCode {t}".format(i, b, c, x, t)).read()
+            i = "2"      
+            T = "PUBLIC"  
+            t = T.lower()
+            SUBNET = os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{0} --vpcNo {1} --subnetName {5}subnet{0} \
+                --subnet 10.0.{3}.0/24 --networkAclNo {2} --subnetTypeCode {4}".format(i, b, c, x, T, t)).read()
         elif x%2 == 1 and x > 10:
-            i = 1
-            t = "private"
-            os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{i} --vpcNo {b} --subnetName {t}subnet{i} \
-                --subnet 10.0.{x}.0/24 -- networkAclNo {c} --subnetTypeCode {t}".format(i, b, c, x, t)).read()
+            i = "1"
+            T = "PRIVATE"
+            t = T.lower()
+            SUBNET = os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{0} --vpcNo {1} --subnetName {5}subnet{0} \
+                --subnet 10.0.{3}.0/24 --networkAclNo {2} --subnetTypeCode {4}".format(i, b, c, x, T,t)).read()
         elif x%2 == 0 and x > 10:
-            i = 2
-            t = "private"
-            os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{i} --vpcNo {b} --subnetName {t}subnet{i} \
-                --subnet 10.0.{x}.0/24 -- networkAclNo {c} --subnetTypeCode {t}".format(i, b, c, x, t)).read()        
-    time.sleep(30)
+            i = "2"
+            T = "PRIVATE"
+            t = T.lower()
+            SUBNET = os.popen("ncloud vpc createSubnet --regionCode KR --zoneCode KR-{0} --vpcNo {1} --subnetName {5}subnet{0} \
+                --subnet 10.0.{3}.0/24 --networkAclNo {2} --subnetTypeCode {4}".format(i, b, c, x, T, t)).read()        
+    time.sleep(25)
     return getsubnetlist(vpcresult)
 
 def getsubnetlist(vpcno):
