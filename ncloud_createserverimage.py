@@ -7,6 +7,7 @@ def createserverimage():
     day = datetime.today().strftime("%Y%m%d")
     create = os.popen("ncloud server createMemberServerImage --serverInstanceNo 10412252 --memberServerImageName test-{}".format(day)).read()
     time.sleep(150)
+
     return getserverlists()
 
 
@@ -24,3 +25,9 @@ def getserverlists():
 
     global Imagedict
     Imagedict = dict(zip(resultName, resultNo))
+
+    return deleteserverimage()
+
+def deleteserverimage():    
+    rm = os.popen("ncloud server deleteMemberServerImages --memberServerImageNoList {}".format()).read()
+
