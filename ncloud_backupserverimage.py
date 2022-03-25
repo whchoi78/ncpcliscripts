@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 from datetime import datetime
 import os
 import json
@@ -12,7 +13,7 @@ def createserverimage():                        #서버 이미지 생성 함수
     return getserverlists()                     #서버 이미지 조회 반환
 
 
-def getserverlists():                           #서버 이미지 조회 함수 및 조회 된 값 딕셔너리 반환
+def getserverlists():                           #서버 이미지 조회 함수 및 조회 된 값 리스트 선언
     show = os.popen("ncloud server getMemberServerImageList").read()        #서버 이미지 조회
     data = json.loads(show)
     #서버 이미지를 조회하면은 json형식으로 출력 되기 때문에 필요한 값 추출
