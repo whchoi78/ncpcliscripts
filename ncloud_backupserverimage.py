@@ -18,15 +18,18 @@ def getserverlists():                           #서버 이미지 조회 함수 
     data = json.loads(show)
     #서버 이미지를 조회하면은 json형식으로 출력 되기 때문에 필요한 값 추출
     datasNo = data['getMemberServerImageListResponse']['memberServerImageList']     
-    ImageNo = list(d['memberServerImageNo'] for d in datasNo)
+    ImageNo = list(d['memberServerImageNo'] for d in datasNo)   #이미지 번호 리스트 생성
     global resultNo
-    resultNo = list(map(int, ImageNo))
+    resultNo = list(map(int, ImageNo))      
 
     return deleteserverimage()              #서버 이미지 삭제 함수 반환
 
 def deleteserverimage():                    #서버 이미지 삭제 함수
-    DelresultNo = resultNo[1]    # 이전 생성 된 서버 이미지 값 추출
-    rm = os.popen("ncloud server deleteMemberServerImages --memberServerImageNoList {}".format(DelresultNo)).read()
+    if len(resultNo) == 1:                  #서버 이미지가 한개일 경우 프로그램 종료
+        exit()
+    else :                                  #서버 이미지가 한개가 아닐경우 이전 생성된 서버 이미지 삭제
+        DelresultNo = resultNo[1]    # 이전 생성 된 서버 이미지 값 추출
+        rm = os.popen("ncloud server deleteMemberServerImages --memberServerImageNoList {}".format(DelresultNo)).read()
     # 이전 생성 된 서버 이미지 삭제
 
-createserverimage()         # 서버 이미지 생성 시작
+createserverimage()         # 서버 이미지 백업 시작
